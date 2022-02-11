@@ -16,26 +16,25 @@ wallets:
 networks:
   default: development
   rinkeby:
-    vrf_coordinator: '0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B'
-    link_token: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709'
-    keyhash: '0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311'
-    fee: 100000000000000000
+    weth_token: '0xc778417e063141139fce010982780140aa0cd5ab'
+    # dai_token is actually fau_token -- just named dai in config for generalisation
+    dai_token: '0xFab46E002BbF0b4509813474841E0716E6730136'
+    dai_usd_price_feed: '0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF'
+    eth_usd_price_feed: '0x8A753747A1Fa494EC906cE90E9f37563A8AF630e'
     verify: True
   mainnet-fork:
-    vrf_coordinator: '0xf0d54349aDdcf704F77AE15b96510dEA15cb7952'
-    link_token: '0x514910771AF9Ca656af840dff83E8264EcF986CA'
-    keyhash: '0xAA77729D3466CA35AE8D28B3BBAC7CC36A5031EFDC430821C02BC31A238AF445'
-    fee: 2000000000000000000
+    weth_token: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
+    dai_token: '0x6b175474e89094c44da98b954eedeac495271d0f'
+    dai_usd_price_feed: '0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9'
+    eth_usd_price_feed: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
     verify: False
   mainnet-fork-dev:
-    vrf_coordinator: '0xf0d54349aDdcf704F77AE15b96510dEA15cb7952'
-    link_token: '0x514910771AF9Ca656af840dff83E8264EcF986CA'
-    keyhash: '0xAA77729D3466CA35AE8D28B3BBAC7CC36A5031EFDC430821C02BC31A238AF445'
-    fee: 2000000000000000000
+    weth_token: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
+    dai_token: '0x6b175474e89094c44da98b954eedeac495271d0f'
+    dai_usd_price_feed: '0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9'
+    eth_usd_price_feed: '0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419'
     verify: False
   development:
-    keyhash: '0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311'
-    fee: 100000000000000000
     verify: False
   ganache-local:
     verify: False
