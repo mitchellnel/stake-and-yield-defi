@@ -70,7 +70,7 @@ contract TokenFarm is Ownable {
         removeFromStakers(msg.sender);
     }
 
-    function addAllowedTokens(address _token) public onlyOwner {
+    function addAllowedToken(address _token) public onlyOwner {
         allowedTokens.push(_token);
     }
 
