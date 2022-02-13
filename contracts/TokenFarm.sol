@@ -45,11 +45,13 @@ contract TokenFarm is Ownable {
         // how much can they stake?
         require(_amount > 0, "Amount to stake must be greater than 0.");
 
+        // user is staking a token
+        updateUniqueTokensStaked(msg.sender, _token);
+
         // transfer tokens to our farm
         IERC20(_token).transferFrom(msg.sender, address(this), _amount);
 
         // update staker details in contract
-        updateUniqueTokensStaked(msg.sender, _token);
         stakingBalance[_token][msg.sender] += _amount;
 
         if (uniqueTokensStaked[msg.sender] == 1) {
@@ -74,7 +76,7 @@ contract TokenFarm is Ownable {
         allowedTokens.push(_token);
     }
 
-    function tokenIsAllowed(address _token) public returns (bool) {
+    function tokenIsAllowed(address _token) public view returns (bool) {
         for (uint256 i = 0; i < allowedTokens.length; i++) {
             if (allowedTokens[i] == _token) {
                 return true;
@@ -106,16 +108,18 @@ contract TokenFarm is Ownable {
         view
         returns (uint256)
     {
-        require(uniqueTokensStaked[_user] > 0, "User has no staked tokens.");
-
         uint256 totalStakedValue = 0;
 
-        for (uint256 i = 0; i < allowedTokens.length; i++) {
-            totalStakedValue += getUserSingleTokenStakedValue(
-                _user,
-                allowedTokens[i]
-            );
+        if (uniqueTokensStaked[_user] > 0) {
+            for (uint256 i = 0; i < allowedTokens.length; i++) {
+                totalStakedValue += getUserSingleTokenStakedValue(
+                    _user,
+                    allowedTokens[i]
+                );
+            }
         }
+
+        return totalStakedValue;
     }
 
     /// @notice Get the USD value of a staker's specific staked token
