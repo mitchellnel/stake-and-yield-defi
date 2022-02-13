@@ -14,7 +14,7 @@ CONTRACT_TO_MOCK = {
 }
 
 DECIMALS = 18
-INITIAL_PRICE_FEED_VALUE = 2_000_000_000_000_000_000_000
+INITIAL_PRICE_FEED_VALUE = 2000_000000000000000000
 
 
 def get_account(index=None, id=None):
@@ -65,7 +65,7 @@ def get_contract(contract_name):
     return contract
 
 
-def deploy_mocks(decimals=18, initial_value=200):
+def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_PRICE_FEED_VALUE):
     """Deploys mock contracts to a testnet."""
     account = get_account()
     print(f"The active network is {network.show_active()}")

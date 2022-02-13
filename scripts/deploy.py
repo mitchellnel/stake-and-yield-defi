@@ -6,6 +6,11 @@ from web3 import Web3
 KEPT_BALANCE = Web3.toWei(100, "ether")
 
 
+def deploy_nellarium_and_token_farm():
+    deploy_nellarium()
+    return deploy_token_farm()
+
+
 def deploy_nellarium():
     account = get_account()
 
@@ -60,9 +65,8 @@ def add_allowed_tokens(token_farm, allowed_tokens_dict, account):
             token.address, allowed_tokens_dict[token], {"from": account}
         )
         set_txn.wait(1)
-        print("... Done! Price feed set.\n")
+        print(f"... Done! {token.name()} price feed set.\n")
 
 
 def main():
-    deploy_nellarium()
-    deploy_token_farm()
+    deploy_nellarium_and_token_farm()

@@ -28,11 +28,9 @@ contract TokenFarm is Ownable {
         nellarium = IERC20(_NellariumAddress);
     }
 
-    function setPriceFeedContract(address _token, address _priceFeed)
-        public
-        onlyOwner
-    {
-        tokenPriceFeedMapping[_token] = _priceFeed;
+    /* core functions */
+    function addAllowedToken(address _token) public onlyOwner {
+        allowedTokens.push(_token);
     }
 
     function stakeTokens(uint256 _amount, address _token) public {
@@ -72,8 +70,23 @@ contract TokenFarm is Ownable {
         removeFromStakers(msg.sender);
     }
 
-    function addAllowedToken(address _token) public onlyOwner {
-        allowedTokens.push(_token);
+    function issueTokens() public onlyOwner {
+        // issue tokens to all stakers
+        for (uint256 i = 0; i < stakers.length; i++) {
+            address recipient = stakers[i];
+
+            // send recipient a token reward based on their total value locked
+            uint256 userTotalStakedValue = getUserTotalStakedValue(recipient);
+            nellarium.transfer(recipient, userTotalStakedValue);
+        }
+    }
+
+    /* helper functions */
+    function setPriceFeedContract(address _token, address _priceFeed)
+        public
+        onlyOwner
+    {
+        tokenPriceFeedMapping[_token] = _priceFeed;
     }
 
     function tokenIsAllowed(address _token) public view returns (bool) {
@@ -89,17 +102,6 @@ contract TokenFarm is Ownable {
     function updateUniqueTokensStaked(address _user, address _token) internal {
         if (stakingBalance[_token][_user] <= 0) {
             uniqueTokensStaked[_user] += 1;
-        }
-    }
-
-    function issueTokens() public onlyOwner {
-        // issue tokens to all stakers
-        for (uint256 i = 0; i < stakers.length; i++) {
-            address recipient = stakers[i];
-
-            // send recipient a token reward based on their total value locked
-            uint256 userTotalStakedValue = getUserTotalStakedValue(recipient);
-            nellarium.transfer(recipient, userTotalStakedValue);
         }
     }
 
