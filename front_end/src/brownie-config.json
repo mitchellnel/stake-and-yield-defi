@@ -1,0 +1,48 @@
+{
+    "dependencies": [
+        "OpenZeppelin/openzeppelin-contracts@4.4.2",
+        "smartcontractkit/chainlink-brownie-contracts@0.3.1"
+    ],
+    "compiler": {
+        "solc": {
+            "remappings": [
+                "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.4.2",
+                "@chainlink=smartcontractkit/chainlink-brownie-contracts@0.3.1"
+            ]
+        }
+    },
+    "dotenv": ".env",
+    "wallets": {
+        "from_key": "${PRIVATE_KEY}"
+    },
+    "networks": {
+        "default": "development",
+        "rinkeby": {
+            "weth_token": "0xc778417e063141139fce010982780140aa0cd5ab",
+            "dai_token": "0xFab46E002BbF0b4509813474841E0716E6730136",
+            "dai_usd_price_feed": "0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF",
+            "eth_usd_price_feed": "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e",
+            "verify": true
+        },
+        "mainnet-fork": {
+            "weth_token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "dai_token": "0x6b175474e89094c44da98b954eedeac495271d0f",
+            "dai_usd_price_feed": "0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9",
+            "eth_usd_price_feed": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+            "verify": false
+        },
+        "mainnet-fork-dev": {
+            "weth_token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+            "dai_token": "0x6b175474e89094c44da98b954eedeac495271d0f",
+            "dai_usd_price_feed": "0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9",
+            "eth_usd_price_feed": "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+            "verify": false
+        },
+        "development": {
+            "verify": false
+        },
+        "ganache-local": {
+            "verify": false
+        }
+    }
+}
