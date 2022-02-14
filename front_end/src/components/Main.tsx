@@ -5,6 +5,18 @@ import helperConfig from "../helper-config.json"
 import networkMapping from "../chain-info/deployments/map.json"
 import brownieConfig from "../brownie-config.json"
 
+import nel from "../nel.png"
+import weth from "../eth.png"
+import dai from "../dai.png"
+
+import { YourWallet } from "./yourWallet"
+
+export type Token = {
+    image: string,
+    address: string,
+    name: string
+}
+
 export const Main = () => {
     // show token values from the wallet
 
@@ -26,5 +38,24 @@ export const Main = () => {
     const wethTokenAddress = chainId ? brownieConfig["networks"][networkName]["weth_token"] : constants.AddressZero
     const daiTokenAddress = chainId ? brownieConfig["networks"][networkName]["dai_token"] : constants.AddressZero
 
-    return (<div>I'm Main!</div>)
+    // show token values from the wallet
+    const supportedTokens: Array<Token> = [
+        {
+            image: nel,
+            address: nelTokenAddress,
+            name: "NEL"
+        },
+        {
+            image: weth,
+            address: wethTokenAddress,
+            name: "WETH"
+        },
+        {
+            image: dai,
+            address: daiTokenAddress,
+            name: "DAI"
+        }
+    ]
+
+    return (<YourWallet supportedTokens={supportedTokens} />)
 }
