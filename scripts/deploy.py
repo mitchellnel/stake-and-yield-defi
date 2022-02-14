@@ -1,14 +1,20 @@
 from brownie import config, network
 from brownie import Nellarium, TokenFarm
 from scripts.helpful_scripts import get_account, get_contract
+from scripts.update_front_end import update_front_end
 from web3 import Web3
 
 KEPT_BALANCE = Web3.toWei(100, "ether")
 
 
-def deploy_nellarium_and_token_farm():
+def deploy_nellarium_and_token_farm(update_front_end_flag=False):
     deploy_nellarium()
-    return deploy_token_farm()
+    token_farm, nel_token = deploy_token_farm()
+
+    if update_front_end_flag:
+        update_front_end()
+
+    return token_farm, nel_token
 
 
 def deploy_nellarium():
