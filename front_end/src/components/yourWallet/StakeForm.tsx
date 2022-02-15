@@ -1,6 +1,7 @@
 import { useEthers, useTokenBalance, useNotifications } from "@usedapp/core";
 import { formatUnits } from "@ethersproject/units";
-import { Button, Input, CircularProgress } from "@material-ui/core";
+import { Button, Input, CircularProgress, Snackbar } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import React, { useEffect, useState } from "react";
 import { utils } from "ethers";
 
@@ -23,6 +24,16 @@ export const StakeForm = ({ token }: StakeFormProps) => {
     // notification handling -- printing to console
     const { notifications } = useNotifications();
 
+    // notification handling -- update front-end via Snackbar
+    const [showERC20ApprovalSuccess, setShowERC20ApprovalSuccess] =
+        useState(false);
+    const [showStakeSuccess, setShowStakeSuccess] = useState(false);
+
+    const handlCloseSnack = () => {
+        setShowERC20ApprovalSuccess(false);
+        setShowStakeSuccess(false);
+    };
+
     useEffect(() => {
         if (
             notifications.filter(
@@ -32,6 +43,9 @@ export const StakeForm = ({ token }: StakeFormProps) => {
             ).length > 0
         ) {
             console.log("Approved!");
+
+            setShowERC20ApprovalSuccess(true);
+            setShowStakeSuccess(false);
         }
 
         if (
@@ -42,8 +56,11 @@ export const StakeForm = ({ token }: StakeFormProps) => {
             ).length > 0
         ) {
             console.log("Tokens staked!");
+
+            setShowERC20ApprovalSuccess(false);
+            setShowStakeSuccess(true);
         }
-    }, [notifications]);
+    }, [notifications, showERC20ApprovalSuccess, showStakeSuccess]);
 
     // input event handler
     const [amount, setAmount] = useState<
@@ -66,7 +83,7 @@ export const StakeForm = ({ token }: StakeFormProps) => {
         return approveAndStake(amountAsWei.toString());
     };
 
-    // front-end for "notificaiton" monitoring -- i.e. show loading
+    // front-end for showing loading
     const isMining = approveAndStakeState.status === "Mining";
 
     // front-end return
@@ -82,6 +99,27 @@ export const StakeForm = ({ token }: StakeFormProps) => {
             >
                 {isMining ? <CircularProgress size={26} /> : "Stake!!!"}
             </Button>
+
+            <Snackbar
+                open={showERC20ApprovalSuccess}
+                autoHideDuration={5000}
+                onClose={handlCloseSnack}
+            >
+                <Alert onClose={handlCloseSnack} severity="success">
+                    ERC-20 token transfer approved! Now approve the 2nd
+                    transaction on your wallet.
+                </Alert>
+            </Snackbar>
+
+            <Snackbar
+                open={showStakeSuccess}
+                autoHideDuration={5000}
+                onClose={handlCloseSnack}
+            >
+                <Alert onClose={handlCloseSnack} severity="success">
+                    Tokens successfully staked!
+                </Alert>
+            </Snackbar>
         </>
     );
 };
