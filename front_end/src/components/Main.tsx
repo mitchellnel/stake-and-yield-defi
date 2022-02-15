@@ -1,5 +1,6 @@
 import { useEthers } from "@usedapp/core";
 import { constants } from "ethers";
+import { makeStyles } from "@material-ui/core";
 
 import helperConfig from "../helper-config.json";
 import networkMapping from "../chain-info/deployments/map.json";
@@ -11,6 +12,14 @@ import dai from "../dai.png";
 
 import { YourWallet } from "./yourWallet";
 
+const useStyles = makeStyles((theme) => ({
+    title: {
+        color: theme.palette.common.white,
+        textAlign: "center",
+        padding: theme.spacing(4),
+    },
+}));
+
 export type Token = {
     image: string;
     address: string;
@@ -18,15 +27,7 @@ export type Token = {
 };
 
 export const Main = () => {
-    // show token values from the wallet
-
-    // get the address of different tokens
-
-    // get the balance of the user's wallet
-
-    // send brownie-config.yaml to our src/ folder
-
-    // send the build folder
+    const classes = useStyles();
 
     // work out what chain we're working on
     const { chainId } = useEthers();
@@ -63,5 +64,10 @@ export const Main = () => {
         },
     ];
 
-    return <YourWallet supportedTokens={supportedTokens} />;
+    return (
+        <>
+            <h2 className={classes.title}>NEL Staking</h2>
+            <YourWallet supportedTokens={supportedTokens} />
+        </>
+    );
 };
