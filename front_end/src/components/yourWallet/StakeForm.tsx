@@ -1,7 +1,7 @@
-import { useEthers, useTokenBalance } from "@usedapp/core";
+import { useEthers, useTokenBalance, useNotifications } from "@usedapp/core";
 import { formatUnits } from "@ethersproject/units";
-import { Button, Input } from "@material-ui/core";
-import React, { useState } from "react";
+import { Button, Input, CircularProgress } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { utils } from "ethers";
 
 import { Token } from "../Main";
@@ -20,6 +20,32 @@ export const StakeForm = ({ token }: StakeFormProps) => {
         ? parseFloat(formatUnits(tokenBalance))
         : 0;
 
+    // notification handling -- printing to console
+    const { notifications } = useNotifications();
+
+    useEffect(() => {
+        if (
+            notifications.filter(
+                (notification) =>
+                    notification.type === "transactionSucceed" &&
+                    notification.transactionName === "Approve ERC20 Transfer"
+            ).length > 0
+        ) {
+            console.log("Approved!");
+        }
+
+        if (
+            notifications.filter(
+                (notification) =>
+                    notification.type === "transactionSucceed" &&
+                    notification.transactionName === "Stake Tokens"
+            ).length > 0
+        ) {
+            console.log("Tokens staked!");
+        }
+    }, [notifications]);
+
+    // input event handler
     const [amount, setAmount] = useState<
         number | string | Array<number | string>
     >(0);
@@ -30,7 +56,9 @@ export const StakeForm = ({ token }: StakeFormProps) => {
         console.log("Input amount to stake is %d", newAmount);
     };
 
-    const { approveAndStake, approveERC20State } = useStakeTokens(tokenAddress);
+    // contract interactions
+    const { approveAndStake, state: approveAndStakeState } =
+        useStakeTokens(tokenAddress);
 
     const handleStakeSubmit = () => {
         const amountAsWei = utils.parseEther(amount.toString());
@@ -38,12 +66,21 @@ export const StakeForm = ({ token }: StakeFormProps) => {
         return approveAndStake(amountAsWei.toString());
     };
 
+    // front-end for "notificaiton" monitoring -- i.e. show loading
+    const isMining = approveAndStakeState.status === "Mining";
+
+    // front-end return
     return (
         <>
             <Input onChange={handleInputChange} />
 
-            <Button onClick={handleStakeSubmit} color="primary" size="large">
-                Stake!!!
+            <Button
+                onClick={handleStakeSubmit}
+                color="primary"
+                size="large"
+                disabled={isMining}
+            >
+                {isMining ? <CircularProgress size={26} /> : "Stake!!!"}
             </Button>
         </>
     );
