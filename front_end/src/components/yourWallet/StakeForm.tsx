@@ -30,8 +30,13 @@ export const StakeForm = ({ token }: StakeFormProps) => {
     const [showStakeSuccess, setShowStakeSuccess] = useState(false);
 
     const handlCloseSnack = () => {
-        setShowERC20ApprovalSuccess(false);
-        setShowStakeSuccess(false);
+        if (showERC20ApprovalSuccess) {
+            setShowERC20ApprovalSuccess(false);
+        }
+
+        if (showStakeSuccess) {
+            setShowStakeSuccess(false);
+        }
     };
 
     useEffect(() => {
@@ -44,8 +49,13 @@ export const StakeForm = ({ token }: StakeFormProps) => {
         ) {
             console.log("Approved!");
 
-            setShowERC20ApprovalSuccess(true);
-            setShowStakeSuccess(false);
+            if (!showERC20ApprovalSuccess) {
+                setShowERC20ApprovalSuccess(true);
+            }
+
+            if (showStakeSuccess) {
+                setShowStakeSuccess(false);
+            }
         }
 
         if (
@@ -57,8 +67,13 @@ export const StakeForm = ({ token }: StakeFormProps) => {
         ) {
             console.log("Tokens staked!");
 
-            setShowERC20ApprovalSuccess(false);
-            setShowStakeSuccess(true);
+            if (showERC20ApprovalSuccess) {
+                setShowERC20ApprovalSuccess(false);
+            }
+
+            if (!showStakeSuccess) {
+                setShowStakeSuccess(true);
+            }
         }
     }, [notifications, showERC20ApprovalSuccess, showStakeSuccess]);
 
