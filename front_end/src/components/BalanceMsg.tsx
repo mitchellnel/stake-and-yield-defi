@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
         gridTemplateColumns: "auto auto auto",
         gap: theme.spacing(1),
         alignItems: "center",
+        height: "75px",
     },
     tokenImg: {
         width: "32px",

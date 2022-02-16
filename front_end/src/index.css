@@ -2,9 +2,9 @@ body {
     height: 100%;
     background: linear-gradient(
         133deg,
-        hsl(249, 98%, 64%),
-        hsl(246, 69%, 50%),
-        hsl(177, 100%, 50%)
+        hsl(241, 84%, 45%),
+        hsl(221, 100%, 58%),
+        hsl(177, 82%, 53%)
     );
     background-repeat: no-repeat;
     background-attachment: fixed;

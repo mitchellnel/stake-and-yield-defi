@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
         gap: theme.spacing(4),
     },
     box: {
+        height: "325px",
         backgroundColor: "white",
         borderRadius: "25px",
     },
